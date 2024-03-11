@@ -69,7 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $role = authenticate($username, $password);
         if (!$role) {
-            $error = 'Invalid username or password.';
+            header('Location: user/registration.php');
+            exit();
         } else {
             $_SESSION['username'] = $username;
             $_SESSION['role'] = $role;
@@ -111,6 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="g-recaptcha" data-sitekey="6LeydpQpAAAAABDQiYoztJxiWhJZurUr9fJ8MYz8"></div> <!-- Replace with your site key -->
         <input type="submit" value="Login">
     </form>
+    <p>New user? <a href="user/registration.php">Register here</a>.</p>
     <?php if (!empty($_SESSION['error'])): ?>
         <p><?php echo $_SESSION['error']; ?></p>
     <?php endif; ?>
