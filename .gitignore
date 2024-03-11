@@ -1,0 +1,25 @@
+# .gitignore for PHP projects
+
+# Ignore Composer's files
+/composer.phar
+/vendor/
+
+# Ignore environment variables
+.env
+
+# Ignore IDE/Editor folders
+.idea/
+.vscode/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore PHPStorm projects
+.idea/
+
+# Ignore node modules
+node_modules/
+
+# Ignore SASS config files
+.sass-cache/
