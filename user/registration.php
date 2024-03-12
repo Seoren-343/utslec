@@ -1,67 +1,52 @@
 <?php
 session_start();
 
-//Uncomment this code below when database is ready
-//// Check if the user is not logged in 
-//if (!isset($_SESSION['username'])) {
-//    // Redirect to the login page
-//    header('Location: ../login.php');
-//    exit();
-//} 
-
-// Unset the error variable
-if (isset($_SESSION['error'])) {
-    unset($_SESSION['error']);
-}
-
-function register($email, $password, $name, $address, $gender, $birthdate, $payment_proof) {
-    // Replace with actual database credentials
-    $servername = "localhost";
-    $dbusername = "username";
-    $dbpassword = "password";
-    $dbname = "database";
-
-    // Create connection
-    $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    // TODO: Add your code to store the user data in a temporary storage,
-    // and send a verification request to the admin
-
-    // Close connection
-    $conn->close();
+// Check if the user is already logged in, redirect to home page
+if (isset($_SESSION['username'])) {
+    header('Location: user/home.php');
+    exit();
 }
 
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
-    $name = $_POST['name'];
-    $address = $_POST['address'];
-    $gender = $_POST['gender'];
-    $birthdate = $_POST['birthdate'];
-    $payment_proof = $_FILES['payment_proof'];
-    $captcha = $_POST['g-recaptcha-response'];
+    $confirmPassword = $_POST['confirm_password'];
+    $name = $_POST['nama'];
+    $address = $_POST['alamat'];
+    $gender = $_POST['jenis_kelamin'];
+    $birthdate = $_POST['tanggal_lahir'];
+    $proofOfPayment = $_FILES['bukti']['nama'];
 
-    // Verify the reCAPTCHA response
-    $secretKey = "6LeydpQpAAAAAASkyMhjPC8arFvGeZLyv9IivPRt"; // Replace with your secret key
-    $response = file_get_contents("https://www.google.com/recaptcha/api/siteverify?secret=$secretKey&response=$captcha");
-    $responseKeys = json_decode($response, true);
+    // Validate form data
+    // Add your validation logic here
 
-    if (empty($email) || empty($password) || empty($confirm_password) || empty($name) || empty($address) || empty($gender) || empty($birthdate) || empty($payment_proof)) {
-        $error = 'All fields are required.';
-    } elseif ($password !== $confirm_password) {
-        $error = 'Password and confirm password do not match.';
-    } elseif (!$responseKeys["success"]) {
-        $error = 'Invalid reCAPTCHA. Please try again.';
+    // Check if passwords match
+    if ($password !== $confirmPassword) {
+        $error = 'Passwords do not match.';
     } else {
-        register($email, $password, $name, $address, $gender, $birthdate, $payment_proof);
-        $error = 'Registration successful. Waiting for admin verification.';
+        // Save uploaded file to folder
+        $uploadDir = 'uploads/';
+        $proofOfPaymentPath = $uploadDir . basename($proofOfPayment);
+
+        if (move_uploaded_file($_FILES['proof_of_payment']['tmp_name'], $proofOfPaymentPath)) {
+            // Registration data is valid, proceed with admin verification
+            $_SESSION['registration_data'] = array(
+                'email' => $email,
+                'password' => $password,
+                'nama' => $nama,
+                'alamat' => $alamat,
+                'jenis_kelamin' => $jenis_kelamin,
+                'tanggal_lahir' => $tanggal_lahir,
+                'bukti' => $bukti
+            );
+
+            // Redirect to admin confirmation page
+            header('Location: admin/confirm_registration.php');
+            exit();
+        } else {
+            $error = 'Failed to upload proof of payment.';
+        }
     }
 
     // Store the error message in the session
@@ -73,60 +58,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>Registration</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script>
-    $(document).ready(function() {
-        $("form").on("submit", function(event) {
-            event.preventDefault();
-
-            $.ajax({
-                url: 'register.php', // TODO: Replace with the URL of your PHP script
-                type: 'post',
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function(response) {
-                    // TODO: Add your code to handle the server response
-                    console.log(response);
-                    // Hide the submit button
-                    $('input[type="submit"]').hide();
-                    // Show the "Waiting for verification..." message
-                    $('#verification').show();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            });
-        });
-    });
-    </script>
 </head>
 <body>
     <form method="post" action="" enctype="multipart/form-data">
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" required><br>
-        <label for="password">Password:</label><br>
+        <label for="email">Password:</label><br>
         <input type="password" id="password" name="password" required><br>
-        <label for="confirm_password">Confirm Password:</label><br>
-        <input type="password" id="confirm_password" name="confirm_password" required><br>
-        <label for="name">Nama:</label><br>
-        <input type="text" id="name" name="name" required><br>
-        <label for="address">Alamat:</label><br>
-        <textarea id="address" name="address" required></textarea><br>
-        <label for="gender">Jenis Kelamin:</label><br>
-        <input type="radio" id="male" name="gender" value="male" required>
-        <label for="male">Male</label><br>
-        <input type="radio" id="female" name="gender" value="female" required>
-        <label for="female">Female</label><br>
-        <label for="birthdate">Tanggal Lahir:</label><br>
-        <input type="date" id="birthdate" name="birthdate" required><br>
-        <label for="payment_proof">Upload File Bukti Pembayaran Simpanan Pokok:</label><br>
-        <input type="file" id="payment_proof" name="payment_proof" required><br>
-        <div class="g-recaptcha" data-sitekey="your_site_key"></div> <!-- Replace with your site key -->
+        <label for="email">Nama:</label><br>
+        <input type="nama" id="nama" name="nama" required><br>
+        <label for="email">Alamat:</label><br>
+        <input type="alamat" id="alamat" name="alamat" required><br>
+        <label for="email">Jenis Kelamin:</label><br>
+        <input type="jenis_kelamin" id="jenis_kelamin" name="jenis_kelamin" required><br>
+        <label for="email">Tanggal Lahir:</label><br>
+        <input type="tanggal_lahir" id="tanggal_lahir" name="tanggal_lahir" required><br>
+        <label for="proof_of_payment">Bukti Pembayaran:</label><br>
+        <input type="file" id="bukti" name="bukti" required><br>
         <input type="submit" value="Register">
     </form>
-    <p id="verification" style="display: none;">Waiting for verification...</p>
+    <?php if (!empty($_SESSION['error'])): ?>
+        <p><?php echo $_SESSION['error']; ?></p>
+    <?php endif; ?>
 </body>
 </html>

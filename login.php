@@ -7,14 +7,8 @@ if (isset($_SESSION['error'])) {
 }
 
 function authenticate($username, $password) {
-    // Replace with actual database credentials
-    $servername = "localhost";
-    $dbusername = "username";
-    $dbpassword = "password";
-    $dbname = "database";
-
     // Create connection
-    $conn = new mysqli($servername, $dbusername, $dbpassword, $dbname);
+    $conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
 
     // Check connection
     if ($conn->connect_error) {
@@ -22,13 +16,13 @@ function authenticate($username, $password) {
     }
 
     // Prepare statement
-    $stmt = $conn->prepare("SELECT role FROM users WHERE username = ? AND password = ?");
+    $stmt = $conn->prepare("SELECT role, FROM users WHERE nama = Admin");
     if ($stmt === false) {
         die("Failed to prepare statement: " . $conn->error);
     }
 
     // Bind parameters
-    if (!$stmt->bind_param("ss", $username, $password)) {
+    if (!$stmt->bind_param("s", $username)) {
         die("Failed to bind parameters: " . $stmt->error);
     }
 
@@ -38,7 +32,7 @@ function authenticate($username, $password) {
     }
 
     // Bind result
-    $stmt->bind_result($role);
+    $stmt->bind_result($role, $hashedPassword);
 
     // Fetch result
     $stmt->fetch();
@@ -47,10 +41,13 @@ function authenticate($username, $password) {
     $stmt->close();
     $conn->close();
 
-    // Return role if exists, false otherwise
-    return $role ? $role : false;
+    // Verify password
+    if ($role && password_verify($password, $hashedPassword)) {
+        return $role;
+    } else {
+        return false;
+    }
 }
-
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];
