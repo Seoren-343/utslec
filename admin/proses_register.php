@@ -59,5 +59,3 @@ unset($_SESSION['registration_data']);
 header('Location: ../login.php');
 exit();
 ?>
-
-
