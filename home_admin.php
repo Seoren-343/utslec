@@ -67,6 +67,9 @@ if (!$result) {
             ?>
         </table>
 
+        <a href="verifikasi_admin.php"><button>Go to Verification Page</button></a>
+        <a href="login.php"><button>Back to login</button></a>
+
         <!-- Add other content specific to the home page for Admin -->
     </div>
 </body>

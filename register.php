@@ -21,12 +21,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Query untuk insert data nasabah
-    $query = "INSERT INTO users (email, password, name, address, gender, birthdate, proof_of_payment, roles)
-              VALUES ('$email', '$password', '$name', '$address', '$gender', '$birthdate', '$proof_of_payment', 'nasabah')";
+    // Query to insert a new record into the savings table
+    $query = "INSERT INTO savings (total_savings, pokok, wajib, sukarela) VALUES (0, 0, 0, 0)";
 
     if ($conn->query($query) === TRUE) {
-        echo "Registration successful";
+        // Get the ID of the newly inserted record
+        $savings_id = $conn->insert_id;
+
+        // Query to insert data into users table
+        $query = "INSERT INTO users (email, password, name, address, gender, birthdate, proof_of_payment, roles, savings_id)
+                  VALUES ('$email', '$password', '$name', '$address', '$gender', '$birthdate', '$proof_of_payment', 'nasabah', $savings_id)";
+
+
+        if ($conn->query($query) === TRUE) {
+            echo "Registration successful";
+        } else {
+            echo "Error: " . $query . "<br>" . $conn->error;
+        }
     } else {
         echo "Error: " . $query . "<br>" . $conn->error;
     }
@@ -34,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <meta charset="UTF-8">

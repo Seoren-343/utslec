@@ -37,10 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["id"] = $row["id"];
             $_SESSION["username"] = $row["name"];
             $_SESSION["role"] = $row["roles"];
+            $_SESSION["savings_id"] = $row["savings_id"]; // Store the savings_id in the session
 
             // Redirect ke halaman sesuai peran (admin/nasabah)
             if ($_SESSION["role"] == "admin") {
-                header("Location: admin_home.php");
+                header("Location: home_admin.php");
             } else {
                 header("Location: home_nasabah.php");
             }
@@ -56,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <!-- Login form HTML structure -->
