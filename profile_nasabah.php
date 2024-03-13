@@ -60,6 +60,7 @@ if (!isset($_SESSION["id"])) {
             <input type="submit" value="Change Password">
         </form>
 
+        <a href="home_nasabah.php"><button>Back</button></a>
         <!-- Add other content specific to the profile page for Nasabah -->
     </div>
 </body>

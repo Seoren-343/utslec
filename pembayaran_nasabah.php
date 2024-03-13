@@ -39,6 +39,7 @@ if (!isset($_SESSION["id"])) {
             <input type="submit" value="Submit Payment">
         </form>
 
+        <a href="home_nasabah.php"><button>Back</button></a>
         <!-- Add other content specific to the payment page for Nasabah -->
     </div>
 </body>

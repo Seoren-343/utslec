@@ -37,6 +37,7 @@ if (!isset($_SESSION["id"])) {
             <!-- Repeat the above row for each transaction -->
         </table>
 
+        <a href="home_nasabah.php"><button>Back</button></a>
         <!-- Add other content specific to the history page for Nasabah -->
     </div>
 </body>

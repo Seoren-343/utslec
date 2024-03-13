@@ -71,8 +71,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="proof_of_payment">Proof of Payment:</label>
             <input type="file" name="proof_of_payment" accept="image/*" required>
 
+            <!-- Add reCAPTCHA widget -->
+            <div class="g-recaptcha" data-sitekey="6LeydpQpAAAAABDQiYoztJxiWhJZurUr9fJ8MYz8"></div> <!-- Replace with your site key -->
+
             <input type="submit" value="Register">
         </form>
+        <!-- Add "Login" button -->
+        <button onclick="window.location.href='login.php'">Login</button>
     </div>
+
+    <!-- Include reCAPTCHA script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
