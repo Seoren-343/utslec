@@ -30,8 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($kategori == "wajib") {
         $query = "INSERT INTO savings (user_id, kategori, tanggal_transfer, wajib, bukti_transfer, status)
                   VALUES (?, ?, ?, ?, ?, 'reviewed')";
-    } else { // sukarela
+    } elseif ($kategori == "sukarela") {
         $query = "INSERT INTO savings (user_id, kategori, tanggal_transfer, sukarela, bukti_transfer, status)
+                  VALUES (?, ?, ?, ?, ?, 'reviewed')";
+    } else { 
+        $query = "INSERT INTO savings (user_id, kategori, tanggal_transfer, pokok, bukti_transfer, status)
                   VALUES (?, ?, ?, ?, ?, 'reviewed')";
     }
 
@@ -68,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form method="post" action="" enctype="multipart/form-data">
             <label for="kategori">Kategori Simpanan:</label>
             <select name="kategori" required>
+                <option value="pokok">Pokok</option>
                 <option value="wajib">Wajib</option>
                 <option value="sukarela">Sukarela</option>
             </select>

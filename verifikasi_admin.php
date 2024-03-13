@@ -11,7 +11,13 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "admin") {
 include("db_config.php");
 
 // Fetch all users from the database
-$query = "SELECT * FROM savings WHERE status = 'reviewed'";
+$query = "SELECT *, 
+          CASE 
+            WHEN kategori = 'Pokok' THEN pokok
+            WHEN kategori = 'Wajib' THEN wajib
+            WHEN kategori = 'Sukarela' THEN sukarela
+          END AS jumlah_transfer
+          FROM savings WHERE status = 'reviewed'";
 $result = mysqli_query($conn, $query);
 
 if (!$result) {
