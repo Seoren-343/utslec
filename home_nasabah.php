@@ -34,6 +34,16 @@ if ($result->num_rows > 0) {
     $total_savings = $pokok + $wajib + $sukarela;
 }
 
+// Query to get the user data
+$query = "SELECT * FROM users WHERE id = $user_id";
+$result = $conn->query($query);
+
+if (!$result) {
+    die("Query failed: " . $conn->connect_error);
+}
+
+$user = $result->fetch_assoc();
+
 $conn->close();
 ?>
 
@@ -47,7 +57,7 @@ $conn->close();
 </head>
 <body>
     <div class="container">
-        <h2>Welcome, <?php echo $_SESSION["username"]; ?>!</h2>
+        <h2>Welcome, <?php echo $user["name"]; ?>!</h2>
 
         <!-- Display total savings and savings in each category -->
         <p>Total Savings: Rp <?php echo number_format($total_savings, 0, ',', '.'); ?></p>
@@ -61,6 +71,7 @@ $conn->close();
         <a href="history_nasabah.php"><button>View History</button></a>
         <a href="profile_nasabah.php"><button>View Profile</button></a>
         <a href="pembayaran_nasabah.php"><button>Make Payment</button></a>
+        <a href="login.php"><button>Sign out</button></a>
 
         <!-- Add other content specific to the home page for Nasabah -->
     </div>
