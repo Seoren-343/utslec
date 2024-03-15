@@ -79,6 +79,15 @@ $conn->close();
         <div>
             <?php if ($user['profile_picture']): ?>
                 <img src="data:image/jpeg;base64,<?php echo base64_encode($user['profile_picture']); ?>" alt="Profile Picture">
+                <form action="profile_nasabah.php" method="post" enctype="multipart/form-data">
+                    <input type="file" name="newPicture">
+                    <input type="submit" name="submit" value="Change Picture">
+                </form>
+            <?php else: ?>
+                <form action="profile_nasabah.php" method="post" enctype="multipart/form-data">
+                    <input type="file" name="newPicture">
+                    <input type="submit" name="submit" value="Upload Picture">
+                </form>
             <?php endif; ?>
         </div>
 
@@ -88,19 +97,19 @@ $conn->close();
             <input type="text" name="newEmail" placeholder="New Email">
             <input type="submit" name="submit" value="Submit">
         </form>
-        
+
         <p><strong>Name:</strong> <?php echo $user["name"]; ?> <button onclick="document.getElementById('changeName').style.display='block'">Change Name</button></p>
         <form id="changeName" style="display:none" action="change_detail.php" method="post">
             <input type="text" name="newName" placeholder="New Name">
             <input type="submit" name="submit" value="Submit">
         </form>
-        
+
         <p><strong>Address:</strong> <?php echo $user["address"]; ?> <button onclick="document.getElementById('changeAddress').style.display='block'">Change Address</button></p>
         <form id="changeAddress" style="display:none" action="change_detail.php" method="post">
             <input type="text" name="newAddress" placeholder="New Address">
             <input type="submit" name="submit" value="Submit">
         </form>
-        
+
         <p><strong>Gender:</strong> <?php echo $user["gender"]; ?> <button onclick="document.getElementById('changeGender').style.display='block'">Change Gender</button></p>
         <form id="changeGender" style="display:none" action="change_detail.php" method="post">
             <select name="newGender">
@@ -109,17 +118,17 @@ $conn->close();
             </select>
             <input type="submit" name="submit" value="Submit">
         </form>
-        
+
         <p><strong>Date of Birth:</strong> <?php echo $user["birthdate"]; ?> <button onclick="document.getElementById('changeBirthdate').style.display='block'">Change Date of Birth</button></p>
         <form id="changeBirthdate" style="display:none" action="change_detail.php" method="post">
             <input type="date" name="newBirthdate">
             <input type="submit" name="submit" value="Submit">
         </form>
-        
 
         <!-- Rest of the buttons -->
         <a href="home_nasabah.php"><button>Back</button></a>
     </div>
 </body>
 </html>
+
 

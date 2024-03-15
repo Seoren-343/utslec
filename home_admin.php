@@ -10,13 +10,16 @@ if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "admin") {
 // Include the database connection file
 include("db_config.php");
 
-// Fetch all users from the database
-$query = "SELECT * FROM users";
-$result = mysqli_query($conn, $query);
+// Query to get the total savings
+$query_savings = "SELECT SUM(pokok) as total_pokok, SUM(wajib) as total_wajib, SUM(sukarela) as total_sukarela FROM savings WHERE status = 'verified'";
+$result_savings = mysqli_query($conn, $query_savings);
 
-if (!$result) {
+if (!$result_savings) {
     die("Query failed: " . mysqli_error($conn));
 }
+
+$savings = mysqli_fetch_assoc($result_savings);
+$total_savings = $savings['total_pokok'] + $savings['total_wajib'] + $savings['total_sukarela'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,47 +34,20 @@ if (!$result) {
         <h2>Welcome, Admin <?php echo $_SESSION["username"]; ?>!</h2>
 
         <!-- Display total savings and savings in each category -->
-        <p>Total Savings: $XXXX</p>
+        <p>Total Savings: Rp<?php echo number_format($total_savings, 2); ?></p>
         <p>Savings Details:</p>
         <ul>
-            <li>Pokok: $XXXX</li>
-            <li>Wajib: $XXXX</li>
-            <li>Sukarela: $XXXX</li>
+            <li>Pokok: Rp<?php echo number_format($savings['total_pokok'], 2); ?></li>
+            <li>Wajib: Rp<?php echo number_format($savings['total_wajib'], 2); ?></li>
+            <li>Sukarela: Rp<?php echo number_format($savings['total_sukarela'], 2); ?></li>
         </ul>
 
-        <!-- Display all users in a table -->
-        <h3>All Users</h3>
-        <table border="1">
-            <tr>
-                <th>User ID</th>
-                <th>Email</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Gender</th>
-                <th>Birthdate</th>
-                <th>Roles</th>
-            </tr>
-            <?php
-            // Loop through each user and display their information
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo "<tr>";
-                echo "<td>{$row['id']}</td>";
-                echo "<td>{$row['email']}</td>";
-                echo "<td>{$row['name']}</td>";
-                echo "<td>{$row['address']}</td>";
-                echo "<td>{$row['gender']}</td>";
-                echo "<td>{$row['birthdate']}</td>";
-                echo "<td>{$row['roles']}</td>";
-                echo "</tr>";
-            }
-            ?>
-        </table>
-
-        <a href="verifikasi_admin.php"><button>Go to Verification Page</button></a>
-        <a href="login.php"><button>Back to login</button></a>
+        <a href="verifikasi_admin.php"><button>Verification</button></a>
+        <a href="history_admin.php"><button>History</button></a>
+        <a href="users_list_admin.php"><button>Users List</button></a>
+        <a href="login.php"><button>Sign out</button></a>
 
         <!-- Add other content specific to the home page for Admin -->
     </div>
 </body>
 </html>
-

@@ -70,7 +70,7 @@ $conn->close();
 
         <a href="history_nasabah.php"><button>View History</button></a>
         <a href="profile_nasabah.php"><button>View Profile</button></a>
-        <a href="pembayaran_nasabah.php"><button>Make Payment</button></a>
+        <a href="pembayaran_nasabah.php"><button>Transaction</button></a>
         <a href="login.php"><button>Sign out</button></a>
 
         <!-- Add other content specific to the home page for Nasabah -->

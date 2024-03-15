@@ -27,8 +27,32 @@ if (!$result) {
 
 $user = $result->fetch_assoc();
 
+// Check if the form is submitted
+if(isset($_POST["submit"])) {
+    // Get the file
+    $profile_picture = $_FILES["newPicture"];
+
+    // Check if a file is selected
+    if ($profile_picture["tmp_name"]) {
+        // Get the file contents
+        $profile_picture_data = file_get_contents($profile_picture["tmp_name"]);
+
+        // Escape the data
+        $profile_picture_data = mysqli_real_escape_string($conn, $profile_picture_data);
+
+        // Update the user data
+        $query = "UPDATE users SET profile_picture = '$profile_picture_data' WHERE id = $user_id";
+        $result = $conn->query($query);
+
+        if (!$result) {
+            die("Query failed: " . $conn->connect_error);
+        }
+    }
+}
+
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
