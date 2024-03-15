@@ -16,24 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Query untuk mengecek login
-    $stmt = $conn->prepare("SELECT * FROM users WHERE name=? AND password=?");
-    $stmt->bind_param("ss", $username, $password);
+    $stmt = $conn->prepare("SELECT * FROM users WHERE name=?");
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
-        // Verify reCAPTCHA response
-        $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
-        $recaptcha_secret = '6LeydpQpAAAAAASkyMhjPC8arFvGeZLyv9IivPRt'; // Replace with your secret key
-        $recaptcha_response = $_POST['g-recaptcha-response'];
-
-        // Make and decode POST request
-        $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
-        $recaptcha = json_decode($recaptcha);
-
-        // Check if reCAPTCHA is valid
-        if ($recaptcha->success) {
-            $row = $result->fetch_assoc();
+        $row = $result->fetch_assoc();
+        if (password_verify($password, $row['password']) || $password == $row['password']) {
+            // Password is correct, now start the session
             $_SESSION["id"] = $row["id"];
             $_SESSION["username"] = $row["name"];
             $_SESSION["role"] = $row["roles"];
@@ -46,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: home_nasabah.php");
             }
         } else {
-            $error = "Invalid reCAPTCHA verification";
+            echo "Invalid password.";
         }
     } else {
         // Redirect non-registered users to register.php
@@ -58,9 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
-<!-- Login form HTML structure -->
 <body>
     <form method="post" action="">
         <label for="username">Username:</label>
@@ -68,6 +59,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <label for="password">Password:</label>
         <input type="password" name="password" required>
+
+        <!-- Add "Forgot Password?" link -->
+        <a href="forgot_password.php">Forgot Password?</a>
 
         <!-- Add reCAPTCHA widget -->
         <div class="g-recaptcha" data-sitekey="6LeydpQpAAAAABDQiYoztJxiWhJZurUr9fJ8MYz8"></div> <!-- Replace with your site key -->
@@ -84,3 +78,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
+

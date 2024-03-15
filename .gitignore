@@ -1,8 +1,7 @@
 # .gitignore for PHP projects
 
 # Ignore Composer's files
-/composer.phar
-/vendor/
+
 
 # Ignore environment variables
 .env
@@ -23,3 +22,4 @@ node_modules/
 
 # Ignore SASS config files
 .sass-cache/
+

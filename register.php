@@ -21,6 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
+    // Hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
     // Query to insert a new record into the savings table
     $query = "INSERT INTO savings (total_savings, pokok, wajib, sukarela) VALUES (0, 0, 0, 0)";
 
@@ -30,16 +33,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Query to insert data into users table
         $query = "INSERT INTO users (email, password, name, address, gender, birthdate, proof_of_payment, roles, savings_id)
-                  VALUES ('$email', '$password', '$name', '$address', '$gender', '$birthdate', '$proof_of_payment', 'nasabah', $savings_id)";
+                  VALUES ('$email', '$hashed_password', '$name', '$address', '$gender', '$birthdate', '$proof_of_payment', 'nasabah', $savings_id)";
 
 
         if ($conn->query($query) === TRUE) {
             echo "Registration successful";
         } else {
-            echo "Error: " . $query . "<br>" . $conn->error;
+            echo "Error: " . $query . "<br>" . $conn->connect_error;
         }
     } else {
-        echo "Error: " . $query . "<br>" . $conn->error;
+        echo "Error: " . $query . "<br>" . $conn->connect_error;
     }
 
     $conn->close();
