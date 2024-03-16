@@ -62,29 +62,29 @@ try {
 
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="login.css">
+    <title>Login</title>
+</head>
 <body>
-    <form method="post" action="">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
-
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-
-        <!-- Add "Forgot Password?" link -->
-        <a href="forgot_password.php">Forgot Password?</a>
-
-        <!-- Add reCAPTCHA widget -->
-        <div class="g-recaptcha" data-sitekey="6LeydpQpAAAAABDQiYoztJxiWhJZurUr9fJ8MYz8"></div> <!-- Replace with your site key -->
-
-        <input type="submit" value="Login">
-    </form>
-
-    <!-- Add "New User?" sign and "Register here" link -->
-    <p>New User? <a href="register.php">Register here</a></p>
-
-    <?php if (isset($error)) { echo "<p>$error</p>"; } ?>
-
-    <!-- Include reCAPTCHA script -->
+    <div class="container">
+        <div class="login-box">
+            <h2>Login</h2>
+            <form method="post" action="">
+                <label for="username">Username:</label>
+                <input type="text" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" name="password" required>
+                <a href="forgot_password.php">Forgot Password?</a>
+                <div class="g-recaptcha" data-sitekey="6LeydpQpAAAAABDQiYoztJxiWhJZurUr9fJ8MYz8"></div> <!-- Replace with your site key -->
+                <input type="submit" value="Login">
+            </form>
+            <p>New User? <a href="register.php">Register here</a></p>
+            <?php if (isset($error)) { echo "<p>$error</p>"; } ?>
+        </div>
+    </div>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
