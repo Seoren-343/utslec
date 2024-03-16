@@ -2,28 +2,33 @@
 // Implement verifikasi admin logic here
 session_start();
 
-if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "admin") {
-    header("Location: login.php");
+try {
+    if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "admin") {
+        header("Location: login.php");
+        exit();
+    }
+
+    // Include the database connection file
+    include("db_config.php");
+
+    // Fetch all users from the database
+    $query = "SELECT *, 
+              CASE 
+                WHEN kategori = 'Pokok' THEN pokok
+                WHEN kategori = 'Wajib' THEN wajib
+                WHEN kategori = 'Sukarela' THEN sukarela
+              END AS jumlah_transfer
+              FROM savings WHERE status = 'reviewed'";
+    if (!($result = mysqli_query($conn, $query))) {
+        throw new Exception("Failed to execute the SQL statement: " . mysqli_error($conn));
+    }
+} catch (Exception $e) {
+    // Handle the exception
+    echo "Error: " . $e->getMessage();
     exit();
 }
-
-// Include the database connection file
-include("db_config.php");
-
-// Fetch all users from the database
-$query = "SELECT *, 
-          CASE 
-            WHEN kategori = 'Pokok' THEN pokok
-            WHEN kategori = 'Wajib' THEN wajib
-            WHEN kategori = 'Sukarela' THEN sukarela
-          END AS jumlah_transfer
-          FROM savings WHERE status = 'reviewed'";
-$result = mysqli_query($conn, $query);
-
-if (!$result) {
-    die("Query failed: " . mysqli_error($conn));
-}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

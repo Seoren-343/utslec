@@ -2,32 +2,40 @@
 // Implement registration logic here
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $confirm_password = $_POST["confirm_password"];
-    $name = $_POST["name"];
-    $address = $_POST["address"];
-    $gender = $_POST["gender"];
-    $birthdate = $_POST["birthdate"];
-    $proof_of_payment = $_POST["proof_of_payment"];
-
-    // Validasi dan sanitasi input
-
-    // Koneksi ke database
-    $conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+try {
+    if (!isset($_SESSION["id"])) {
+        header("Location: login.php");
+        exit();
     }
 
-    // Hash the password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    // Check if the form is submitted
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+        $confirm_password = $_POST["confirm_password"];
+        $name = $_POST["name"];
+        $address = $_POST["address"];
+        $gender = $_POST["gender"];
+        $birthdate = $_POST["birthdate"];
+        $proof_of_payment = $_POST["proof_of_payment"];
 
-    // Query to insert a new record into the savings table
-    $query = "INSERT INTO savings (total_savings, pokok, wajib, sukarela) VALUES (0, 0, 0, 0)";
+        // Koneksi ke database
+        $conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
 
-    if ($conn->query($query) === TRUE) {
+        if ($conn->connect_error) {
+            throw new Exception("Connection failed: " . $conn->connect_error);
+        }
+
+        // Hash the password
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Query to insert a new record into the savings table
+        $query = "INSERT INTO savings (total_savings, pokok, wajib, sukarela) VALUES (0, 0, 0, 0)";
+
+        if ($conn->query($query) !== TRUE) {
+            throw new Exception("Failed to execute the SQL statement: " . $conn->error);
+        }
+
         // Get the ID of the newly inserted record
         $savings_id = $conn->insert_id;
 
@@ -35,17 +43,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $query = "INSERT INTO users (email, password, name, address, gender, birthdate, proof_of_payment, roles, savings_id)
                   VALUES ('$email', '$hashed_password', '$name', '$address', '$gender', '$birthdate', '$proof_of_payment', 'nasabah', $savings_id)";
 
-
-        if ($conn->query($query) === TRUE) {
-            echo "Registration successful";
-        } else {
-            echo "Error: " . $query . "<br>" . $conn->connect_error;
+        if ($conn->query($query) !== TRUE) {
+            throw new Exception("Failed to execute the SQL statement: " . $conn->error);
         }
-    } else {
-        echo "Error: " . $query . "<br>" . $conn->connect_error;
-    }
 
-    $conn->close();
+        echo "Registration successful";
+
+        $conn->close();
+    }
+} catch (Exception $e) {
+    // Handle the exception
+    echo "Error: " . $e->getMessage();
+    exit();
 }
 ?>
 

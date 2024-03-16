@@ -2,25 +2,30 @@
 // Implement admin home logic here
 session_start();
 
-if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "admin") {
-    header("Location: login.php");
+try {
+    if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "admin") {
+        header("Location: login.php");
+        exit();
+    }
+
+    // Include the database connection file
+    include("db_config.php");
+
+    // Query to get the total savings
+    $query_savings = "SELECT SUM(pokok) as total_pokok, SUM(wajib) as total_wajib, SUM(sukarela) as total_sukarela FROM savings WHERE status = 'verified'";
+    if (!($result_savings = mysqli_query($conn, $query_savings))) {
+        throw new Exception("Failed to execute the SQL statement: " . mysqli_error($conn));
+    }
+
+    $savings = mysqli_fetch_assoc($result_savings);
+    $total_savings = $savings['total_pokok'] + $savings['total_wajib'] + $savings['total_sukarela'];
+} catch (Exception $e) {
+    // Handle the exception
+    echo "Error: " . $e->getMessage();
     exit();
 }
-
-// Include the database connection file
-include("db_config.php");
-
-// Query to get the total savings
-$query_savings = "SELECT SUM(pokok) as total_pokok, SUM(wajib) as total_wajib, SUM(sukarela) as total_sukarela FROM savings WHERE status = 'verified'";
-$result_savings = mysqli_query($conn, $query_savings);
-
-if (!$result_savings) {
-    die("Query failed: " . mysqli_error($conn));
-}
-
-$savings = mysqli_fetch_assoc($result_savings);
-$total_savings = $savings['total_pokok'] + $savings['total_wajib'] + $savings['total_sukarela'];
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -2,36 +2,40 @@
 // Implement history nasabah logic here
 session_start();
 
-if (!isset($_SESSION["id"])) {
-    header("Location: login.php");
+try {
+    if (!isset($_SESSION["id"])) {
+        header("Location: login.php");
+        exit();
+    }
+
+    // Koneksi ke database
+    $conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
+
+    if ($conn->connect_error) {
+        throw new Exception("Connection failed: " . $conn->connect_error);
+    }
+
+    // Get the user's id
+    $user_id = $_SESSION["id"];
+
+    // Query to get the transaction data
+    $query = "SELECT *, 
+              CASE 
+                WHEN kategori = 'Pokok' THEN pokok
+                WHEN kategori = 'Wajib' THEN wajib
+                WHEN kategori = 'Sukarela' THEN sukarela
+              END AS jumlah_transfer
+              FROM savings WHERE user_id = $user_id ORDER BY tanggal_transfer ASC";
+    if (!($result = $conn->query($query))) {
+        throw new Exception("Failed to execute the SQL statement: " . $conn->error);
+    }
+
+    $conn->close();
+} catch (Exception $e) {
+    // Handle the exception
+    echo "Error: " . $e->getMessage();
     exit();
 }
-
-// Koneksi ke database
-$conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Get the user's id
-$user_id = $_SESSION["id"];
-
-// Query to get the transaction data
-$query = "SELECT *, 
-          CASE 
-            WHEN kategori = 'Pokok' THEN pokok
-            WHEN kategori = 'Wajib' THEN wajib
-            WHEN kategori = 'Sukarela' THEN sukarela
-          END AS jumlah_transfer
-          FROM savings WHERE user_id = $user_id ORDER BY tanggal_transfer ASC";
-$result = $conn->query($query);
-
-if (!$result) {
-    die("Query failed: " . $conn->connect_error);
-}
-
-$conn->close();
 ?>
 
 <!DOCTYPE html>

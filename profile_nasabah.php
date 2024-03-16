@@ -2,57 +2,58 @@
 // Implement profile nasabah logic here
 session_start();
 
-if (!isset($_SESSION["id"])) {
-    header("Location: login.php");
-    exit();
-}
+try {
+    if (!isset($_SESSION["id"])) {
+        header("Location: login.php");
+        exit();
+    }
 
-// Koneksi ke database
-$conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
+    // Koneksi ke database
+    $conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    if ($conn->connect_error) {
+        throw new Exception("Connection failed: " . $conn->connect_error);
+    }
 
-// Get the user's id
-$user_id = $_SESSION["id"];
+    // Get the user's id
+    $user_id = $_SESSION["id"];
 
-// Query to get the user data
-$query = "SELECT * FROM users WHERE id = $user_id";
-$result = $conn->query($query);
+    // Query to get the user data
+    $query = "SELECT * FROM users WHERE id = $user_id";
+    if (!($result = $conn->query($query))) {
+        throw new Exception("Failed to execute the SQL statement: " . $conn->error);
+    }
 
-if (!$result) {
-    die("Query failed: " . $conn->connect_error);
-}
+    $user = $result->fetch_assoc();
 
-$user = $result->fetch_assoc();
+    // Check if the form is submitted
+    if(isset($_POST["submit"])) {
+        // Get the file
+        $profile_picture = $_FILES["newPicture"];
 
-// Check if the form is submitted
-if(isset($_POST["submit"])) {
-    // Get the file
-    $profile_picture = $_FILES["newPicture"];
+        // Check if a file is selected
+        if ($profile_picture["tmp_name"]) {
+            // Get the file contents
+            $profile_picture_data = file_get_contents($profile_picture["tmp_name"]);
 
-    // Check if a file is selected
-    if ($profile_picture["tmp_name"]) {
-        // Get the file contents
-        $profile_picture_data = file_get_contents($profile_picture["tmp_name"]);
+            // Escape the data
+            $profile_picture_data = mysqli_real_escape_string($conn, $profile_picture_data);
 
-        // Escape the data
-        $profile_picture_data = mysqli_real_escape_string($conn, $profile_picture_data);
-
-        // Update the user data
-        $query = "UPDATE users SET profile_picture = '$profile_picture_data' WHERE id = $user_id";
-        $result = $conn->query($query);
-
-        if (!$result) {
-            die("Query failed: " . $conn->connect_error);
+            // Update the user data
+            $query = "UPDATE users SET profile_picture = '$profile_picture_data' WHERE id = $user_id";
+            if (!($result = $conn->query($query))) {
+                throw new Exception("Failed to execute the SQL statement: " . $conn->error);
+            }
         }
     }
+
+    $conn->close();
+} catch (Exception $e) {
+    // Handle the exception
+    echo "Error: " . $e->getMessage();
+    exit();
 }
-
-$conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">

@@ -7,29 +7,36 @@
 <body>
     <?php
     // Include the database connection file
-    if (isset($_POST['reset_password'])) {
-        // Connect to the database
-        $conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
+    try {
+        if (isset($_POST['reset_password'])) {
+            // Connect to the database
+            $conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
 
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
+            // Check connection
+            if ($conn->connect_error) {
+                throw new Exception("Connection failed: " . $conn->connect_error);
+            }
 
-        $email = $conn->real_escape_string($_POST['email']);
-        $new_password = $conn->real_escape_string($_POST['new_password']);
-        $confirm_password = $conn->real_escape_string($_POST['confirm_password']);
+            $email = $conn->real_escape_string($_POST['email']);
+            $new_password = $conn->real_escape_string($_POST['new_password']);
+            $confirm_password = $conn->real_escape_string($_POST['confirm_password']);
 
-        // Check if passwords match
-        if ($new_password == $confirm_password) {
+            // Check if passwords match
+            if ($new_password != $confirm_password) {
+                throw new Exception("Passwords do not match.");
+            }
+
             // Update the user's password
             $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
-            $conn->query("UPDATE users SET password='$hashed_password' WHERE email='$email'");
+            if (!$conn->query("UPDATE users SET password='$hashed_password' WHERE email='$email'")) {
+                throw new Exception("Failed to execute the SQL statement: " . $conn->error);
+            }
 
             echo "Your password has been reset successfully!";
-        } else {
-            echo "Passwords do not match.";
         }
+    } catch (Exception $e) {
+        // Handle the exception
+        echo "Error: " . $e->getMessage();
     }
     ?>
 
