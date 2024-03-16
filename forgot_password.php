@@ -14,6 +14,7 @@
 </html>
 
 <?php
+include("session_functions.php");
 try {
     if (isset($_POST['email'])) {
         // Connect to the database

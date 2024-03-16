@@ -6,6 +6,7 @@
 </head>
 <body>
     <?php
+    include("session_functions.php");
     // Include the database connection file
     try {
         if (isset($_POST['reset_password'])) {

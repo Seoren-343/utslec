@@ -1,7 +1,5 @@
 <?php
-// Implement login logic here
-session_start();
-
+include("session_functions.php");
 try {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = $_POST["username"];

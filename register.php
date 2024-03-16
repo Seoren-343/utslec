@@ -1,13 +1,6 @@
 <?php
-// Implement registration logic here
-session_start();
-
+include("session_functions.php");
 try {
-    if (!isset($_SESSION["id"])) {
-        header("Location: login.php");
-        exit();
-    }
-
     // Check if the form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST["email"];

@@ -1,7 +1,5 @@
 <?php
-// accept_payment.php
-session_start();
-
+include("session_functions.php");
 try {
     if (!isset($_SESSION["id"]) || $_SESSION["role"] !== "admin") {
         header("Location: login.php");

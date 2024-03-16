@@ -9,8 +9,10 @@
 <body>
     <div class="container">
         <h1>Welcome to Koperasi</h1>
-        <a href="login.php">Login</a>
-        <a href="register.php">Register</a>
+        <nav>
+            <a href="login.php">Login</a>
+            <a href="register.php">Register</a>
+        </nav>
     </div>
 </body>
 </html>
