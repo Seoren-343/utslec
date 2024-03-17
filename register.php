@@ -55,7 +55,7 @@ try {
 <html lang="en">
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="register.css">
     <title>Registration</title>
 <body>
 <div class="container">
@@ -92,9 +92,9 @@ try {
             <div class="g-recaptcha" data-sitekey="6LeydpQpAAAAABDQiYoztJxiWhJZurUr9fJ8MYz8"></div> <!-- Replace with your site key -->
 
             <input type="submit" value="Register">
+            <button onclick="window.location.href='login.php'">Login</button>
         </form>
         <!-- Add "Login" button -->
-        <button onclick="window.location.href='login.php'">Login</button>
     </div>
 
     <!-- Include reCAPTCHA script -->

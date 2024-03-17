@@ -29,7 +29,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home_admin.css">
     <title>Admin Home</title>
 </head>
 <body>
@@ -37,20 +37,55 @@ try {
         <h2>Welcome, Admin <?php echo $_SESSION["username"]; ?>!</h2>
 
         <!-- Display total savings and savings in each category -->
-        <p>Total Savings: Rp<?php echo number_format($total_savings, 2); ?></p>
-        <p>Savings Details:</p>
-        <ul>
-            <li>Pokok: Rp<?php echo number_format($savings['total_pokok'], 2); ?></li>
-            <li>Wajib: Rp<?php echo number_format($savings['total_wajib'], 2); ?></li>
-            <li>Sukarela: Rp<?php echo number_format($savings['total_sukarela'], 2); ?></li>
-        </ul>
-
-        <a href="verifikasi_admin.php"><button>Verification</button></a>
-        <a href="history_admin.php"><button>History</button></a>
-        <a href="users_list_admin.php"><button>Users List</button></a>
-        <a href="login.php"><button>Sign out</button></a>
-
-        <!-- Add other content specific to the home page for Admin -->
+        <div class="total-savings-box">
+            <p>Total Savings</p>
+            <h1>Rp<?php echo number_format($total_savings, 2); ?></h1>
+        </div>
+        <div class="savings-details">
+            <div class="savings-box">
+                <p>Pokok</p>
+                <h3>Rp<?php echo number_format($savings['total_pokok'], 2); ?></h3>
+            </div>
+            <div class="savings-box">
+                <p>Wajib</p>
+                <h3>Rp<?php echo number_format($savings['total_wajib'], 2); ?></h3>
+            </div>
+            <div class="savings-box">
+                <p>Sukarela</p>
+                <h3>Rp<?php echo number_format($savings['total_sukarela'], 2); ?></h3>
+            </div>
+        </div>
+        <!-- Buttons -->
+        <div class="buttons">
+            <div class="button-container">
+                <a href="verifikasi_admin.php">
+                    <span class="icon">🔍</span>
+                    <span class="button-name">Verification</span>
+                    <p>Approve users payment</p>
+                </a>
+            </div>
+            <div class="button-container">
+                <a href="history_admin.php">
+                    <span class="icon">📜</span>
+                    <span class="button-name">History</span>
+                    <p>Sees your approval history</p>
+                </a>
+            </div>
+            <div class="button-container">
+                <a href="users_list_admin.php">
+                    <span class="icon">👥</span>
+                    <span class="button-name">Users List</span>
+                    <p>Display all listed users</p>
+                </a>
+            </div>
+            <div class="button-container">
+                <a href="login.php">
+                    <span class="icon">🚪</span>
+                    <span class="button-name">Sign out</span>
+                    <p>bye bye</p>
+                </a>
+            </div>
+        </div>
     </div>
 </body>
 </html>
