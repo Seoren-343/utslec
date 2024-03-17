@@ -55,28 +55,57 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home_nasabah.css">
     <title>Home - Nasabah</title>
 </head>
 <body>
     <div class="container">
         <h2>Welcome, <?php echo $user["name"]; ?>!</h2>
 
-        <!-- Display total savings and savings in each category -->
-        <p>Total Savings: Rp <?php echo number_format($total_savings, 0, ',', '.'); ?></p>
-        <p>Savings Details:</p>
-        <ul>
-            <li>Pokok: Rp <?php echo number_format($pokok, 0, ',', '.'); ?></li>
-            <li>Wajib: Rp <?php echo number_format($wajib, 0, ',', '.'); ?></li>
-            <li>Sukarela: Rp <?php echo number_format($sukarela, 0, ',', '.'); ?></li>
-        </ul>
+        <div class="total-savings-box">
+            <p>Total Savings: Rp <?php echo number_format($total_savings, 0, ',', '.'); ?></p>
+        </div>
+        <div class="savings-details">
+            <div class="savings-box">
+                <p>Pokok</p>
+                <h3>Rp <?php echo number_format($pokok, 0, ',', '.'); ?></h3>
+            </div>
+            <div class="savings-box">
+                <p>Wajib</p>
+                <h3>Rp <?php echo number_format($wajib, 0, ',', '.'); ?></h3>
+            </div>
+            <div class="savings-box">
+                <p>Sukarela</p>
+                <h3>Rp <?php echo number_format($sukarela, 0, ',', '.'); ?><h3>
+            </div>
+        </div>
 
-        <a href="history_nasabah.php"><button>View History</button></a>
-        <a href="profile_nasabah.php"><button>View Profile</button></a>
-        <a href="pembayaran_nasabah.php"><button>Transaction</button></a>
-        <a href="login.php"><button>Sign out</button></a>
-
-        <!-- Add other content specific to the home page for Nasabah -->
+        <div class="buttons">
+            <div class="button-container">
+                <a href="history_nasabah.php">
+                    <span class="button-name">View History</span>
+                    <p>View your transactions history</p>
+                </a>
+            </div>
+            <div class="button-container">
+                <a href="profile_nasabah.php">
+                    <span class="button-name">View Profile</span>
+                    <p>View and edit your profile</p>
+                </a>
+            </div>
+            <div class="button-container">
+                <a href="pembayaran_nasabah.php">
+                    <span class="button-name">Transaction</span>
+                    <p>Make your transactions here</p>
+                </a>
+            </div>
+            <div class="button-container">
+                <a href="login.php">
+                    <span class="button-name">Sign out</span>
+                    <p>bye bye</p>
+                </a>
+            </div>
+        </div>
     </div>
 </body>
 </html>
