@@ -34,14 +34,12 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="history_admin.css">
     <title>Admin History</title>
 </head>
 <body>
     <div class="container">
         <h2>Payment History</h2>
-
-        <!-- Display all payments in a table -->
         <table border="1">
             <tr>
                 <th>No.</th>
@@ -74,7 +72,7 @@ try {
             ?>
         </table>
 
-        <a href="home_admin.php"><button>Back</button></a>
+        <a href="home_admin.php" class="back-button">Back</a>
     </div>
 </body>
 </html>

@@ -27,6 +27,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="users_list_admin.css">
+
     <title>Admin Users List</title>
 </head>
 <body>
@@ -34,7 +35,7 @@ try {
         <h2>Admins List</h2>
 
         <!-- Display all admins in a table -->
-        <table border="1">
+        <table>
             <tr>
                 <th>User ID</th>
                 <th>Email</th>
@@ -67,7 +68,7 @@ try {
         <h2>Users List</h2>
 
         <!-- Display all users in a table -->
-        <table border="1">
+        <table>
             <tr>
                 <th>User ID</th>
                 <th>Email</th>
