@@ -83,24 +83,28 @@ try {
         <div class="buttons">
             <div class="button-container">
                 <a href="history_nasabah.php">
+                    <span class="icon">📜</span>
                     <span class="button-name">View History</span>
                     <p>View your transactions history</p>
                 </a>
             </div>
             <div class="button-container">
                 <a href="profile_nasabah.php">
+                    <span class="icon">👤</span>
                     <span class="button-name">View Profile</span>
                     <p>View and edit your profile</p>
                 </a>
             </div>
             <div class="button-container">
                 <a href="pembayaran_nasabah.php">
+                    <span class="icon">💵</span>
                     <span class="button-name">Transaction</span>
                     <p>Make your transactions here</p>
                 </a>
             </div>
             <div class="button-container">
                 <a href="login.php">
+                    <span class="icon">🚪</span>
                     <span class="button-name">Sign out</span>
                     <p>bye bye</p>
                 </a>

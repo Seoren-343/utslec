@@ -58,30 +58,38 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="profile_nasabah.css">
     <title>Profile - Nasabah</title>
 </head>
 <body>
     <div class="container">
-        <h2>User Profile</h2>
+        <h1 class="main-header">User Profile</h1>
 
-        <!-- Profile picture placement -->
-        <div>
-            <?php if ($user['profile_picture']): ?>
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($user['profile_picture']); ?>" alt="Profile Picture">
-            <?php endif; ?>
+        <!-- Buttons -->
+        <div class="buttons">
+            <a href="profile_settings_nasabah.php"><button>Profile Settings</button></a>
+            <a href="home_nasabah.php"><button>Back</button></a>
         </div>
 
-        <!-- Display user information -->
-        <p><strong>Email:</strong> <?php echo $user["email"]; ?></p>
-        <p><strong>Name:</strong> <?php echo $user["name"]; ?></p>
-        <p><strong>Address:</strong> <?php echo $user["address"]; ?></p>
-        <p><strong>Gender:</strong> <?php echo $user["gender"]; ?></p>
-        <p><strong>Date of Birth:</strong> <?php echo $user["birthdate"]; ?></p>
+        <!-- Profile picture and user details -->
+        <div class="profile-container">
+            <!-- Profile picture container -->
+            <div class="profile-pic-container">
+                <?php if ($user['profile_picture']): ?>
+                    <img src="data:image/jpeg;base64,<?php echo base64_encode($user['profile_picture']); ?>" alt="Profile Picture">
+                <?php endif; ?>
+            </div>
 
-        <!-- Rest of the buttons -->
-        <a href="profile_settings_nasabah.php"><button>Profile Settings</button></a>
-        <a href="home_nasabah.php"><button>Back</button></a>
+            <!-- User details container -->
+            <div class="user-details-container">
+                <p><strong>Email:</strong> <?php echo $user["email"]; ?></p>
+                <p><strong>Name:</strong> <?php echo $user["name"]; ?></p>
+                <p><strong>Address:</strong> <?php echo $user["address"]; ?></p>
+                <p><strong>Gender:</strong> <?php echo $user["gender"]; ?></p>
+                <p><strong>Date of Birth:</strong> <?php echo $user["birthdate"]; ?></p>
+            </div>
+        </div>
     </div>
 </body>
 </html>
+

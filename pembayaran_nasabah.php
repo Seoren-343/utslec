@@ -70,7 +70,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pembayaran_nasabah.css">
     <title>Pembayaran - Nasabah</title>
 </head>
 <body>
@@ -96,10 +96,8 @@ try {
             <input type="file" name="bukti_transfer" accept="image/*" required>
 
             <input type="submit" value="Submit Payment">
+            <a href="home_nasabah.php" class="back-button">Back</a>
         </form>
-        
-        <a href="home_nasabah.php"><button>Back</button></a>
-        <!-- Add other content specific to the payment page for Nasabah -->
     </div>
 </body>
 </html>
