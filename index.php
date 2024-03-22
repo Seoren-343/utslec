@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Koperasi</h1>
+        <h1>Welcome to DunCar Koperasi</h1>
         <nav>
             <a href="login.php">Login</a>
             <a href="register.php">Register</a>
