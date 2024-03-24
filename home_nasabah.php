@@ -6,8 +6,8 @@ try {
         exit();
     }
 
-    // Koneksi ke database
-    $conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
+    // Include the database connection file
+    include("db_config.php");
 
     if ($conn->connect_error) {
         throw new Exception("Connection failed: " . $conn->connect_error);
