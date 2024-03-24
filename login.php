@@ -8,7 +8,7 @@ try {
         // Validasi dan sanitasi input
 
         // Include the database connection file
-        include("db_config.php");
+        $conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
 
         if ($conn->connect_error) {
             throw new Exception("Connection failed: " . $conn->connect_error);
