@@ -1,7 +1,6 @@
 <?php
 include("session_functions.php");
 try {
-    // Check if the form is submitted
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST["email"];
         $password = $_POST["password"];
@@ -11,28 +10,18 @@ try {
         $gender = $_POST["gender"];
         $birthdate = $_POST["birthdate"];
         $proof_of_payment = $_POST["proof_of_payment"];
-
-        // Include the database connection file
         include("db_config.php");
 
         if ($conn->connect_error) {
             throw new Exception("Connection failed: " . $conn->connect_error);
         }
-
-        // Hash the password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // Query to insert a new record into the savings table
         $query = "INSERT INTO savings (total_savings, pokok, wajib, sukarela) VALUES (0, 0, 0, 0)";
 
         if ($conn->query($query) !== TRUE) {
             throw new Exception("Failed to execute the SQL statement: " . $conn->error);
         }
-
-        // Get the ID of the newly inserted record
         $savings_id = $conn->insert_id;
-
-        // Query to insert data into users table
         $query = "INSERT INTO users (email, password, name, address, gender, birthdate, proof_of_payment, roles, savings_id)
                   VALUES ('$email', '$hashed_password', '$name', '$address', '$gender', '$birthdate', '$proof_of_payment', 'nasabah', $savings_id)";
 
@@ -45,7 +34,6 @@ try {
         $conn->close();
     }
 } catch (Exception $e) {
-    // Handle the exception
     echo "Error: " . $e->getMessage();
     exit();
 }
@@ -88,16 +76,12 @@ try {
             <label for="proof_of_payment">Proof of Payment:</label>
             <input type="file" name="proof_of_payment" accept="image/*" required>
 
-            <!-- Add reCAPTCHA widget -->
-            <div class="g-recaptcha" data-sitekey="6LeydpQpAAAAABDQiYoztJxiWhJZurUr9fJ8MYz8"></div> <!-- Replace with your site key -->
+            <div class="g-recaptcha" data-sitekey="6LeydpQpAAAAABDQiYoztJxiWhJZurUr9fJ8MYz8"></div>
 
             <input type="submit" value="Register">
             <button onclick="window.location.href='login.php'">Login</button>
         </form>
-        <!-- Add "Login" button -->
     </div>
-
-    <!-- Include reCAPTCHA script -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>

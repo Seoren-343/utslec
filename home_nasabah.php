@@ -6,27 +6,22 @@ try {
         exit();
     }
 
-    // Include the database connection file
     include("db_config.php");
 
     if ($conn->connect_error) {
         throw new Exception("Connection failed: " . $conn->connect_error);
     }
 
-    // Get the user's id
     $user_id = $_SESSION["id"];
 
-    // Initialize savings to 0
     $pokok = $wajib = $sukarela = 0;
 
-    // Query to get the savings data
     $query = "SELECT SUM(pokok) as total_pokok, SUM(wajib) as total_wajib, SUM(sukarela) as total_sukarela FROM savings WHERE user_id = $user_id AND status = 'verified'";
     if (!($result = $conn->query($query))) {
         throw new Exception("Failed to execute the SQL statement: " . $conn->error);
     }
 
     if ($result->num_rows > 0) {
-        // Fetch the savings data
         $row = $result->fetch_assoc();
         $pokok = $row["total_pokok"];
         $wajib = $row["total_wajib"];
@@ -34,7 +29,6 @@ try {
         $total_savings = $pokok + $wajib + $sukarela;
     }
 
-    // Query to get the user data
     $query = "SELECT * FROM users WHERE id = $user_id";
     if (!($result = $conn->query($query))) {
         throw new Exception("Failed to execute the SQL statement: " . $conn->error);
@@ -44,7 +38,6 @@ try {
 
     $conn->close();
 } catch (Exception $e) {
-    // Handle the exception
     echo "Error: " . $e->getMessage();
     exit();
 }
@@ -61,17 +54,12 @@ try {
 <body>
     <div class="container">
         <h2>Welcome, <?php echo $user["name"]; ?>!</h2>
-
-        <!-- Profile picture and user details -->
         <div class="profile-container">
-            <!-- Profile picture container -->
             <div class="profile-pic-container">
                 <?php if ($user['profile_picture']): ?>
                     <img src="data:image/jpeg;base64,<?php echo base64_encode($user['profile_picture']); ?>" alt="Profile Picture">
                 <?php endif; ?>
             </div>
-
-            <!-- User details container -->
             <div class="user-details-container">
                 <p><strong>Email:</strong> <?php echo $user["email"]; ?></p>
                 <p><strong>Name:</strong> <?php echo $user["name"]; ?></p>

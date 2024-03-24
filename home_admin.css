@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa; /* Light gray background */
+    background-color: #f8f9fa;
     margin: 0;
     padding: 0;
     background: url('img/Untitled\ design\ \(3\).png')
@@ -13,8 +13,8 @@ h2 {
 
 .total-savings {
     text-align: center;
-    font-size: 36px; /* Enlarge the font size */
-    color: #28a745; /* Green color for total savings */
+    font-size: 36px;
+    color: #28a745;
     margin-bottom: 30px;
 }
 
@@ -26,12 +26,12 @@ h2 {
 }
 
 .total-savings-box p {
-    font-size: 24px; /* Big font size for "Total Savings" text */
+    font-size: 24px;
 }
 
 .total-savings-box h1 {
-    font-size: 48px; /* Bigger font size for the total savings amount */
-    margin-top: 10px; /* Margin on top of the total savings amount */
+    font-size: 48px;
+    margin-top: 10px;
 }
 
 .savings-container {
@@ -65,7 +65,6 @@ h2 {
     font-weight: bold;
 }
 
-/* Button container */
 .buttons {
     display: flex;
     flex-wrap: wrap;
@@ -83,7 +82,7 @@ h2 {
     background-color: rgba(173, 216, 230, 0.8);
     transition: transform 0.3s ease;
     display: flex;
-    align-items: center; /* Center items vertically */
+    align-items: center;
     justify-content: center;
 }
 

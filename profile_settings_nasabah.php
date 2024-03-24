@@ -6,46 +6,29 @@ try {
         exit();
     }
 
-    // Include the database connection file
     include("db_config.php");
 
     if ($conn->connect_error) {
         throw new Exception("Connection failed: " . $conn->connect_error);
     }
 
-    // Get the user's id
     $user_id = $_SESSION["id"];
-
-    // Check if the form is submitted
     if(isset($_POST["submit"])) {
-        // Get the file
         $profile_picture = $_FILES["profile_picture"];
-
-        // Get the file contents
         $profile_picture_data = file_get_contents($profile_picture["tmp_name"]);
-
-        // Escape the data
         $profile_picture_data = mysqli_real_escape_string($conn, $profile_picture_data);
-
-        // Update the user data
         $query = "UPDATE users SET profile_picture = '$profile_picture_data' WHERE id = $user_id";
         if (!($result = $conn->query($query))) {
             throw new Exception("Failed to execute the SQL statement: " . $conn->error);
         }
     }
-
-    // Check if the remove button is clicked
     if(isset($_POST["remove"])) {
-        // Remove the profile picture from the database
         $query = "UPDATE users SET profile_picture = NULL WHERE id = $user_id";
         if (!($result = $conn->query($query))) {
             throw new Exception("Failed to execute the SQL statement: " . $conn->error);
         }
-        // Refresh the page to reflect the changes
         echo "<meta http-equiv='refresh' content='0'>";
     }
-
-    // Query to get the user data
     $query = "SELECT * FROM users WHERE id = $user_id";
     if (!($result = $conn->query($query))) {
         throw new Exception("Failed to execute the SQL statement: " . $conn->error);
@@ -55,7 +38,6 @@ try {
 
     $conn->close();
 } catch (Exception $e) {
-    // Handle the exception
     echo "Error: " . $e->getMessage();
     exit();
 }
@@ -73,8 +55,6 @@ try {
 <body>
     <div class="container">
         <h2>User Profile</h2>
-
-        <!-- Profile picture placement -->
         <div class="profile-pic-container">
             <?php if ($user['profile_picture']): ?>
                 <img src="data:image/jpeg;base64,<?php echo base64_encode($user['profile_picture']); ?>" alt="Profile Picture">
@@ -89,8 +69,6 @@ try {
                 </form>
             <?php endif; ?>
         </div>
-
-        <!-- User details container -->
         <div class="user-details-container">
             <p><strong>Email:</strong> <?php echo $user["email"]; ?></p>
             <button onclick="document.getElementById('changeEmail').style.display='block'">Change Email</button>

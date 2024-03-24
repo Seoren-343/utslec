@@ -5,11 +5,7 @@ try {
         header("Location: login.php");
         exit();
     }
-
-    // Include the database connection file
     include("db_config.php");
-
-    // Query to get the total savings
     $query_savings = "SELECT SUM(pokok) as total_pokok, SUM(wajib) as total_wajib, SUM(sukarela) as total_sukarela FROM savings WHERE status = 'verified'";
     if (!($result_savings = mysqli_query($conn, $query_savings))) {
         throw new Exception("Failed to execute the SQL statement: " . mysqli_error($conn));
@@ -18,7 +14,6 @@ try {
     $savings = mysqli_fetch_assoc($result_savings);
     $total_savings = $savings['total_pokok'] + $savings['total_wajib'] + $savings['total_sukarela'];
 } catch (Exception $e) {
-    // Handle the exception
     echo "Error: " . $e->getMessage();
     exit();
 }
@@ -35,8 +30,6 @@ try {
 <body>
     <div class="container">
         <h2>Welcome, Admin <?php echo $_SESSION["username"]; ?>!</h2>
-
-        <!-- Display total savings and savings in each category -->
         <div class="total-savings-box">
             <p>Total Savings</p>
             <h1>Rp<?php echo number_format($total_savings, 2); ?></h1>
@@ -55,7 +48,6 @@ try {
                 <h3>Rp<?php echo number_format($savings['total_sukarela'], 2); ?></h3>
             </div>
         </div>
-        <!-- Buttons -->
         <div class="buttons">
             <div class="button-container">
                 <a href="verifikasi_admin.php">

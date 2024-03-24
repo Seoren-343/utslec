@@ -5,18 +5,13 @@ try {
         header("Location: login.php");
         exit();
     }
-
-    // Include the database connection file
     include("db_config.php");
 
     if ($conn->connect_error) {
         throw new Exception("Connection failed: " . $conn->connect_error);
     }
-
-    // Get the user's id
     $user_id = $_SESSION["id"];
 
-    // Query to get the transaction data
     $query = "SELECT *, 
               CASE 
                 WHEN kategori = 'Pokok' THEN pokok
@@ -30,7 +25,6 @@ try {
 
     $conn->close();
 } catch (Exception $e) {
-    // Handle the exception
     echo "Error: " . $e->getMessage();
     exit();
 }
@@ -47,8 +41,6 @@ try {
 <body>
     <div class="container">
         <h2>Transaction History</h2>
-
-        <!-- Display transaction history in a table -->
         <table border="1">
             <tr>
                 <th>No.</th>
@@ -57,7 +49,6 @@ try {
                 <th>Kategori Simpanan</th>
                 <th>Status</th>
             </tr>
-            <!-- Fetch and display transaction data from the database -->
             <?php
             $no = 1;
             while ($row = $result->fetch_assoc()) {

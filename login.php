@@ -4,17 +4,11 @@ try {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $username = $_POST["username"];
         $password = $_POST["password"];
-
-        // Validasi dan sanitasi input
-
-        // Include the database connection file
         $conn = new mysqli("localhost", "root", "", "uts_webprog_lec");
 
         if ($conn->connect_error) {
             throw new Exception("Connection failed: " . $conn->connect_error);
         }
-
-        // Query untuk mengecek login
         $stmt = $conn->prepare("SELECT * FROM users WHERE name=?");
         if (!$stmt) {
             throw new Exception("Failed to prepare the SQL statement: " . $conn->error);
@@ -29,14 +23,11 @@ try {
 
         if ($result->num_rows > 0) {
             $row = $result->fetch_assoc();
-            if (password_verify($password, $row['password']) || $password == $row['password']) { //dont forget to remove the || in here to maximize security
-                // Password is correct, now start the session
+            if (password_verify($password, $row['password']) || $password == $row['password']) {
                 $_SESSION["id"] = $row["id"];
                 $_SESSION["username"] = $row["name"];
                 $_SESSION["role"] = $row["roles"];
-                $_SESSION["savings_id"] = $row["savings_id"]; // Store the savings_id in the session
-
-                // Redirect ke halaman sesuai peran (admin/nasabah)
+                $_SESSION["savings_id"] = $row["savings_id"];
                 if ($_SESSION["role"] == "admin") {
                     header("Location: home_admin.php");
                 } else {
@@ -46,7 +37,6 @@ try {
                 echo "Invalid password.";
             }
         } else {
-            // Redirect non-registered users to register.php
             header("Location: register.php");
         }
 
@@ -54,7 +44,6 @@ try {
         $conn->close();
     }
 } catch (Exception $e) {
-    // Handle the exception
     echo "Error: " . $e->getMessage();
     exit();
 }
@@ -90,7 +79,7 @@ try {
                 <label for="password">Password:</label>
                 <input type="password" name="password" required>
                 <a href="forgot_password.php">Forgot Password?</a>
-                <div class="g-recaptcha" data-sitekey="6LeydpQpAAAAABDQiYoztJxiWhJZurUr9fJ8MYz8"></div> <!-- Replace with your site key -->
+                <div class="g-recaptcha" data-sitekey="6LeydpQpAAAAABDQiYoztJxiWhJZurUr9fJ8MYz8"></div>
                 <input type="submit" value="Login">
             </form>
             <p>New User? <a href="register.php">Register here</a></p>

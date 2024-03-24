@@ -5,17 +5,12 @@ try {
         header("Location: login.php");
         exit();
     }
-
-    // Include the database connection file
     include("db_config.php");
-
-    // Fetch all users from the database
     $query = "SELECT * FROM users";
     if (!($result = mysqli_query($conn, $query))) {
         throw new Exception("Failed to execute the SQL statement: " . mysqli_error($conn));
     }
 } catch (Exception $e) {
-    // Handle the exception
     echo "Error: " . $e->getMessage();
     exit();
 }
@@ -33,8 +28,6 @@ try {
 <body>
     <div class="container">
         <h2>Admins List</h2>
-
-        <!-- Display all admins in a table -->
         <table>
             <tr>
                 <th>User ID</th>
@@ -47,7 +40,6 @@ try {
                 <th>Action</th>
             </tr>
             <?php
-            // Loop through each user and display their information
             while ($row = mysqli_fetch_assoc($result)) {
                 if ($row['roles'] === 'admin') {
                     echo "<tr>";
@@ -66,8 +58,6 @@ try {
         </table>
 
         <h2>Users List</h2>
-
-        <!-- Display all users in a table -->
         <table>
             <tr>
                 <th>User ID</th>
@@ -80,8 +70,7 @@ try {
                 <th>Action</th>
             </tr>
             <?php
-            // Loop through each user and display their information
-            mysqli_data_seek($result, 0); // Reset result pointer
+            mysqli_data_seek($result, 0);
             while ($row = mysqli_fetch_assoc($result)) {
                 if ($row['roles'] !== 'admin') {
                     echo "<tr>";
@@ -98,7 +87,6 @@ try {
             }
             ?>
         </table>
-
         <a href="home_admin.php"><button>Back</button></a>
     </div>
 </body>

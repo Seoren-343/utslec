@@ -6,7 +6,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
-    justify-content: flex-end; /* Aligns the container to the right */
+    justify-content: flex-end;
 }
 
 .container {
@@ -14,11 +14,9 @@ body {
     flex-direction: column;
     align-items: flex-end;
     justify-content: center;
-    width: 100%; /* Sets the width of the container to 1/3 of the body width */
+    width: 100%;
     height: 100vh;
 }
-
-/* Rest of your CSS code */
 
 h1 {
     font-size: 3.1rem;
@@ -27,9 +25,9 @@ h1 {
     margin-right: 84px;
     opacity: 0;
     animation: fadeIn 2s ease-in-out forwards;
-    position: absolute; /* Position at the top */
-    top: 50px; /* Adjust top position for centering */
-    width: 100%; /* Full width */
+    position: absolute;
+    top: 50px;
+    width: 100%;
 }
 
 @keyframes fadeIn {
@@ -65,7 +63,7 @@ nav a {
     text-decoration: none;
     border-radius: 8px;
     border: 2px solid rgba(0, 191, 255, 0.8);
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Added transform property for dropdown effect */
+    transition: background-color 0.3s ease, transform 0.3s ease;
     width: 300px;
     height: 40px;
     animation: slideDown 0.5s ease forwards;
@@ -73,7 +71,7 @@ nav a {
 
 nav a:hover {
     background-color: rgba(173, 216, 230, 1);
-    transform: translateY(-5px); /* Move the button up by 5px on hover */
+    transform: translateY(-5px);
 }
 
 @keyframes slideDown {

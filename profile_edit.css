@@ -116,7 +116,7 @@ body {
 .buttons-container button {
     margin-bottom: 10px;
 }
-/* Style all buttons */
+
 button, input[type="submit"] {
     display: inline-block;
     font-weight: 400;
@@ -125,7 +125,7 @@ button, input[type="submit"] {
     vertical-align: middle;
     cursor: pointer;
     -webkit-user-select: none;
-    background-color: #007bff; /* Primary button color */
+    background-color: #007bff;
     border: 1px solid transparent;
     padding: .375rem .75rem;
     font-size: 1rem;
@@ -140,7 +140,6 @@ button:hover, input[type="submit"]:hover {
     border-color: #0062cc;
 }
 
-/* Style the back button as a secondary button */
 .back-button {
     color: #383d41;
     background-color: #fff;
