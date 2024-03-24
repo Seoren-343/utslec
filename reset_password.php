@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Reset Password</title>
-</head>
-<body>
-    <?php
+<?php
     include("session_functions.php");
     // Include the database connection file
     try {
@@ -39,14 +32,26 @@
         // Handle the exception
         echo "Error: " . $e->getMessage();
     }
-    ?>
+?>
 
-    <form action="reset_password.php" method="post">
-        <input type="email" name="email" placeholder="Enter your email address" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reset Password</title>
+    <link rel="stylesheet" href="reset_password.css">
+</head>
+<body>
+    <form action="" method="post">
+        <label for="email">Enter your email address:</label>
+        <input type="email" id="email" name="email" required>
         <input type="password" name="new_password" placeholder="Enter new password" required>
         <input type="password" name="confirm_password" placeholder="Confirm new password" required>
         <button type="submit" name="reset_password">Reset Password</button>
+        <div class="login-button-container">
+            <a href="login.php"><button>Login</button></a>
+        </div>
     </form>
-    <a href="login.php"><button>Login</button></a>
+    <a href="forgot_password.php"><button>Back</button></a> 
 </body>
 </html>

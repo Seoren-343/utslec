@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Forgot Password</title>
+    <link rel="stylesheet" href="forgot_password.css">
 </head>
 <body>
     <form action="" method="post">
         <label for="email">Enter your email address:</label>
         <input type="email" id="email" name="email" required>
         <input type="submit" value="Reset Password">
+        <!-- Insert the reset password link here -->
+        <div id="resetPasswordLink"></div>
     </form>
+    <a href="login.php"><button>Back</button></a>
 </body>
 </html>
 
@@ -46,12 +50,16 @@ try {
                 throw new Exception("Failed to execute the SQL statement: " . mysqli_error($conn));
             }
 
-            // Directly print the reset password link
+            // Print a script to insert the reset password link into the DOM
             echo "
-                A reset password link has been generated. Please click on the link below:<br>
-                <a href='
-                http://localhost/utslec/reset_password.php?email=$email&token=$token
-                '>Reset Password</a><br><br>
+                <script>
+                    document.getElementById('resetPasswordLink').innerHTML = `
+                        A reset password link has been generated. Please click on the link below:<br>
+                        <a href='
+                        http://localhost/utslec/reset_password.php?email=$email&token=$token
+                        '>Reset Password</a><br><br>
+                    `;
+                </script>
             ";
 
             exit();
@@ -65,3 +73,4 @@ try {
     exit();
 }
 ?>
+
