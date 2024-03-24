@@ -67,12 +67,24 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="login.css">
     <title>Login</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+        function validateForm() {
+            var username = document.forms["loginForm"]["username"].value;
+            var password = document.forms["loginForm"]["password"].value;
+            var recaptcha = grecaptcha.getResponse();
+            if (username == "" || password == "" || recaptcha.length == 0) {
+                alert("All fields must be filled out");
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <div class="login-box">
             <h2>Login</h2>
-            <form method="post" action="">
+            <form name="loginForm" method="post" action="" onsubmit="return validateForm()">
                 <label for="username">Username:</label>
                 <input type="text" name="username" required>
                 <label for="password">Password:</label>
@@ -85,6 +97,6 @@ try {
             <?php if (isset($error)) { echo "<p>$error</p>"; } ?>
         </div>
     </div>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
+

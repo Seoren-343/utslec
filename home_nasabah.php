@@ -62,6 +62,25 @@ try {
     <div class="container">
         <h2>Welcome, <?php echo $user["name"]; ?>!</h2>
 
+        <!-- Profile picture and user details -->
+        <div class="profile-container">
+            <!-- Profile picture container -->
+            <div class="profile-pic-container">
+                <?php if ($user['profile_picture']): ?>
+                    <img src="data:image/jpeg;base64,<?php echo base64_encode($user['profile_picture']); ?>" alt="Profile Picture">
+                <?php endif; ?>
+            </div>
+
+            <!-- User details container -->
+            <div class="user-details-container">
+                <p><strong>Email:</strong> <?php echo $user["email"]; ?></p>
+                <p><strong>Name:</strong> <?php echo $user["name"]; ?></p>
+                <p><strong>Address:</strong> <?php echo $user["address"]; ?></p>
+                <p><strong>Gender:</strong> <?php echo $user["gender"]; ?></p>
+                <p><strong>Date of Birth:</strong> <?php echo $user["birthdate"]; ?></p>
+            </div>
+        </div>
+
         <div class="total-savings-box">
             <p>Total Savings: Rp <?php echo number_format($total_savings, 0, ',', '.'); ?></p>
         </div>
